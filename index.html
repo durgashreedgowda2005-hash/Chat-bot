@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Chatbot</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            width: 350px;
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .chat-box {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .user, .bot {
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .user {
+            background: #2575fc;
+            color: white;
+            text-align: right;
+        }
+
+        .bot {
+            background: #f1f1f1;
+        }
+
+        input {
+            width: 75%;
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background: #2575fc;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <h3>🤖 Attendance Bot</h3>
+
+    <div class="chat-box" id="chatBox"></div>
+
+    <input type="text" id="message" placeholder="Enter attendance...">
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+function sendMessage() {
+    let input = document.getElementById("message");
+    let message = input.value;
+
+    if (message === "") return;
+
+    let chatBox = document.getElementById("chatBox");
+
+    // Show user message
+    chatBox.innerHTML += `<div class="user">${message}</div>`;
+
+    fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message })
+    })
+    .then(response => response.json())
+    .then(data => {
+        chatBox.innerHTML += `<div class="bot">${data.reply}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+
+    input.value = "";
+}
+</script>
+
+</body>
+</html>
