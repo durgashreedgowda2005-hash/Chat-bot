@@ -1,1 +1,1 @@
-# Chat-bot
+This is an AI chat-bot which calculates the attendence percentage by taking the input of number of classes done and number of classes attended.In the backend i have used python language.I have imported flask. 
